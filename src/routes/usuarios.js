@@ -54,6 +54,7 @@ router.post('/users/create', (req, res) => {
   });
 });
 
+// UpDate An User
 router.put('/users/update/:email_id', (req, res) => {
   const { edad, carrera, semestre } = req.body;
   const { email_id } = req.params;
