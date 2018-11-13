@@ -101,9 +101,15 @@ router.post('/users/create', (req, res) => {
     .query(query,
     { raw: true, replacements: [nombres, apellidos, email_id, contraseña] })
     .then(rows => {
-      res.json(rows[0])})
+      console.log(rows[0]);
+      if(rows[0] === 0){
+        res.send({'success':true });
+      }else{
+        res.send({'success':false, 'mesasge':'the response it is not zero'});
+      }
+    })
     .catch(err => {
-      console.error('ERROR:', err);
+       res.send({'success':false,'mesasge':'Could not connect do db'});
     });
 });
 
