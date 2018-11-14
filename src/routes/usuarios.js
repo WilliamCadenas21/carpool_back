@@ -45,7 +45,7 @@ router.post('/users/login', (req, res) => {
       }
     })
     .catch(err => {
-      console.error('ERROR:', err);
+      res.send({'success': false, 'message':err});
     });
 });
 
