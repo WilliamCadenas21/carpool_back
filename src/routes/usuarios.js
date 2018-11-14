@@ -51,6 +51,27 @@ router.get('/users/get/:email_id', (req, res) => {
     });
 });
 
+router.post('/users/login', (req, res) => {
+  const { email_id, password } = req.body; 
+  sequilize
+    .query('SELECT contraseña FROM usuarios WHERE email_id = ?',
+    { replacements: [email_id]})
+    .then(rows => {
+      if(!rows[0][0].contraseña){
+        res.send({'success': false});
+      }else{
+        if(rows[0][0].contraseña == password){
+          res.send({'success': true});
+        }else{
+          res.send({'success': false});
+        }
+      }
+    })
+    .catch(err => {
+      console.error('ERROR:', err);
+    });
+});
+
 // DELETE An User
 // router.delete('/users/delete/:email_id', (req, res) => {
 //   const { email_id } = req.params;
@@ -103,13 +124,13 @@ router.post('/users/create', (req, res) => {
     .then(rows => {
       console.log(rows[0]);
       if(rows[0] === 0){
-        res.send({'success':true });
+        res.send({'success': true });
       }else{
-        res.send({'success':false, 'mesasge':'the response it is not zero'});
+        res.send({'success': false, 'mesasge':'the response it is not zero'});
       }
     })
     .catch(err => {
-       res.send({'success':false,'mesasge':'Could not connect do db'});
+       res.send({'success': false,'mesasge':'Could not connect to db'});
     });
 });
 
