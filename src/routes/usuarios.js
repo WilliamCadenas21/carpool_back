@@ -8,17 +8,6 @@ router.get('/', (req, res) => {
   res.send('welcome to my rest api');
 });
 
-// GET all User
-// router.get('/users/getAll', (req, res) => {
-//   mysqlConnection.query('SELECT * FROM usuarios', (err, rows, fields) => {
-//     if(!err) {
-//       res.json(rows);
-//     } else {
-//       console.log(err);
-//     }
-//   });  
-// });
-
 router.get('/users/getAll', (req, res) => {
   sequilize.query('SELECT * FROM usuarios').then( rows => {
     //console.log(rows);
@@ -27,18 +16,6 @@ router.get('/users/getAll', (req, res) => {
 });
 
 // GET An User
-
-// router.get('/users/get/:email_id', (req, res) => {
-//   const { email_id } = req.params; 
-//   mysqlConnection.query('SELECT * FROM usuarios WHERE email_id = ?', [email_id], (err, rows, fields) => {
-//     if (!err) {
-//       res.json(rows[0]);
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
 router.get('/users/get/:email_id', (req, res) => {
   const { email_id } = req.params; 
   sequilize
@@ -73,17 +50,6 @@ router.post('/users/login', (req, res) => {
 });
 
 // DELETE An User
-// router.delete('/users/delete/:email_id', (req, res) => {
-//   const { email_id } = req.params;
-//   mysqlConnection.query('DELETE FROM usuarios WHERE email_id = ?', 
-//     { raw: true, replacements: [email_id]}).then(rows => {
-//       res.json(rows[0])
-//     .catch(err => {
-//       console.error('ERROR:', err);
-//     });  
-//   });
-// });
-
 router.delete('/users/delete/:email_id', (req, res) => {
   const { email_id } = req.params; 
   sequilize
@@ -98,21 +64,6 @@ router.delete('/users/delete/:email_id', (req, res) => {
 
 
 // INSERT An User
-// router.post('/users/create', (req, res) => {
-//   const {nombres, apellidos, email_id, contraseña} = req.body;
-//   console.log(req.body);
-//   const query = `
-//   INSERT INTO usuarios  
-//   VALUES (?,?,?,?,TRUE,NULL,NULL,NULL,NULL);`;
-//   mysqlConnection.query(query, [nombres, apellidos, email_id, contraseña], (err, rows, fields) => {
-//     if(!err) {
-//       res.json({status: 'User Create and Saved'});
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
 router.post('/users/create', (req, res) => {
   const {nombres, apellidos, email_id, contraseña} = req.body;
   const query = `
@@ -126,32 +77,15 @@ router.post('/users/create', (req, res) => {
       if(rows[0] === 0){
         res.send({'success': true });
       }else{
-        res.send({'success': false, 'mesasge':'the response it is not zero'});
+        res.send({'success': false, 'message':'the response it is not zero'});
       }
     })
     .catch(err => {
-       res.send({'success': false,'mesasge':'Could not connect to db'});
+       res.send({'success': false, 'message':err});
     });
 });
 
 // UpDate An User
-// router.put('/users/update/:email_id', (req, res) => {
-//   const { edad, carrera, semestre } = req.body;
-//   const { email_id } = req.params;
-//   const query = `
-//     UPDATE usuarios
-//       SET edad = ?, carrera= ?, semestre = ?
-//       WHERE email_id = ?;
-//   `;
-//   mysqlConnection.query(query, [edad, carrera, semestre, email_id], (err, rows, fields) => {
-//     if(!err) {
-//       res.json({status: 'User Updated'});
-//     } else {
-//       console.log(err);
-//     }
-//   });
-// });
-
 router.put('/users/update/:email_id', (req, res) => {
   const { edad, carrera, semestre } = req.body;
   const { email_id } = req.params;
