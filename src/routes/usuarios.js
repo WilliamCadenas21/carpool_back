@@ -123,8 +123,9 @@ router.put('/users/update/:email_id', (req, res) => {
   });
 });
 
-router.post('/comfirmation/:token', (req, res) => {  
-  jwt.verify(req.parms, SEED, (err, authData) => {
+router.get('/comfirmation/:token', (req, res) => {  
+  const token = req.params;
+  jwt.verify(token, SEED, (err, authData) => {
     if(err) {
       res.send({success:false, message:err})
     } else {
