@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken')
 const sequilize  = require('../database.js');
 
 const account ={
-    user:'service.carpool.vita@gmail.com',
-    pass:'$Carpool123'
+    user:'service2.carpool.vita@gmail.com',
+    pass:'$Carpool2'
 }
 
 const SEED = 'secretword';
