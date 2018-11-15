@@ -1,1 +1,1 @@
-SELECT contraseña FROM usuarios WHERE email_id = 'wcadenas@uninorte.edu.co'
+SELECT contraseña, usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'

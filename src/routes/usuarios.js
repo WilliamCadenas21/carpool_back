@@ -89,14 +89,8 @@ router.post('/users/login', (req, res) => {
     .query('SELECT contraseña, usuario_valido FROM usuarios WHERE email_id = ?',
     {raw: true, replacements: [email_id]})
     .then(rows => {
-      if(!rows[0][0].contraseña){
-        res.send({'success': false, message: 'no contraseña' });
-      }else{
-        conosle.log('la constraseña que trae de la db:'+rows[0][0].contraseña);
         if(rows[0][0].contraseña == password){
-          conosle.log('esta validado0:'+rows[0][0].contraseña);
-          conosle.log('esta validado1'+rows[0][1].contraseña);
-          if(rowa[0][0].usuario_valido == 1){
+          if(rows[0][0].usuario_valido == 1){
             res.send({'success': true, message: 'contraseña y usuario conciden'});
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
@@ -104,10 +98,9 @@ router.post('/users/login', (req, res) => {
         }else{
           res.send({'success': false, message: 'el password no concide'});
         }
-      }
     })
     .catch(err => {
-      res.send({'success': false, 'message':'el usuario no fue encontrado'});
+      res.send({'success': false, 'message':err});
     });
 });
 

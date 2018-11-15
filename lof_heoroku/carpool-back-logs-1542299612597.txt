@@ -1,0 +1,19 @@
+2018-11-15T16:23:12.853176+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: checho123
+2018-11-15T16:23:12.855060+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:23:22.651725+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: Checho123
+2018-11-15T16:23:22.728721+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:23:22.736264+00:00 heroku[router]: at=info method=POST path="/users/login" host=carpool-back.herokuapp.com request_id=9492b8a1-96dc-4c93-896d-be320074eada fwd="190.26.207.124" dyno=web.1 connect=0ms service=87ms status=200 bytes=265 protocol=https
+2018-11-15T16:23:55.038911+00:00 heroku[router]: at=info method=POST path="/users/login" host=carpool-back.herokuapp.com request_id=120a53ad-2952-4882-b3c6-ecf0cbaceed0 fwd="190.26.207.124" dyno=web.1 connect=0ms service=39ms status=200 bytes=265 protocol=https
+2018-11-15T16:23:55.001595+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: Checho123
+2018-11-15T16:23:55.031403+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:26:07.516213+00:00 app[web.1]: Executing (default): UPDATE usuarios SET usuario_valido = 1 WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:26:07.536014+00:00 heroku[router]: at=info method=GET path="/comfirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiQWxmcmVkbyIsImVtYWlsIjoiYWx1bmFqQHVuaW5vcnRlLmVkdS5jbyJ9LCJpYXQiOjE1NDIyOTg2MzMsImV4cCI6MTU0MjkwMzQzM30.kP7AX9qsiVdWKPwNpnk3qZPNPBYBDMtXNjEnQupsnt8" host=carpool-back.herokuapp.com request_id=928e9d35-aa43-43c3-8ddb-fbd4e3e5cc69 fwd="66.102.8.33" dyno=web.1 connect=0ms service=105ms status=200 bytes=268 protocol=https
+2018-11-15T16:29:04.574316+00:00 heroku[router]: at=info method=POST path="/users/login" host=carpool-back.herokuapp.com request_id=be1b1d22-b399-400b-a05b-532452f5c803 fwd="190.26.207.124" dyno=web.1 connect=0ms service=26ms status=200 bytes=259 protocol=https
+2018-11-15T16:29:04.553039+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: checho123
+2018-11-15T16:29:04.568751+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:30:10.144949+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: Checho123
+2018-11-15T16:30:10.268672+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
+2018-11-15T16:30:10.285806+00:00 heroku[router]: at=info method=POST path="/users/login" host=carpool-back.herokuapp.com request_id=9a656add-1877-41ed-b2ae-d1f149a1877a fwd="190.26.207.124" dyno=web.1 connect=1ms service=144ms status=200 bytes=265 protocol=https
+2018-11-15T16:30:29.805011+00:00 heroku[router]: at=info method=POST path="/users/login" host=carpool-back.herokuapp.com request_id=5d9e363a-55b5-4fc5-97af-c43cf165df6d fwd="190.26.207.124" dyno=web.1 connect=1ms service=9ms status=200 bytes=259 protocol=https
+2018-11-15T16:30:29.800701+00:00 app[web.1]: 1: alunaj@uninorte.edu.co 2: checho123
+2018-11-15T16:30:29.801467+00:00 app[web.1]: Executing (default): SELECT contraseña,usuario_valido FROM usuarios WHERE email_id = 'alunaj@uninorte.edu.co'
