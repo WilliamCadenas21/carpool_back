@@ -1,13 +1,13 @@
-USE heroku_3885dbc12e8e764;
+USE heroku_025b0710027001d;
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
-	`nombres` varchar(30) NOT NULL,
-	`apellidos` varchar(30) NOT NULL,
-	`email_id` varchar(30) NOT NULL,
-	`contraseña` varchar(30) NOT NULL,
+	`nombres` varchar(100) NOT NULL,
+	`apellidos` varchar(100) NOT NULL,
+	`email_id` varchar(40) NOT NULL,
+	`contraseña` varchar(40) NOT NULL,
 	`usuario_valido` BOOLEAN NOT NULL,
-	`placa` varchar(30),
-	`edad` varchar(2),
+	`placa` varchar(6),
+	`edad` INT,
 	`carrera` varchar(30),
 	`semestre` varchar(2),
 	PRIMARY KEY (`email_id`)
