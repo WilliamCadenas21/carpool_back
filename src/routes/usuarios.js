@@ -88,7 +88,7 @@ router.post('/users/login', (req, res) => {
     .then(rows => {
         if(rows[0][0].contraseña == password){
           if(rows[0][0].usuario_valido == 1){
-            res.send({'success': true, message: 'contraseña y usuario conciden'});
+            res.send({'success': true, message: 'usuario valido'});
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
           }
@@ -97,7 +97,7 @@ router.post('/users/login', (req, res) => {
         }
     })
     .catch(err => {
-      res.send({'success': false, 'message':err});
+      res.send({'success': false, 'message':'su correo no coincide'});
     });
 });
 

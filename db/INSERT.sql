@@ -1,2 +1,2 @@
 INSERT INTO usuarios  
-VALUES ('william','cadenas','wcadenas@uninorte.edu.co','1234',TRUE,NULL,NULL,NULL,NULL);
+VALUES ('Mauricio','Pertuz','empertuz@uninorte.edu.co','123',TRUE,NULL,NULL,NULL,NULL);

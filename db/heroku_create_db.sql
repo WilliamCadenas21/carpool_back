@@ -3,7 +3,7 @@ USE heroku_025b0710027001d;
 CREATE TABLE IF NOT EXISTS `usuarios` (
 	`nombres` varchar(100) NOT NULL,
 	`apellidos` varchar(100) NOT NULL,
-	`email_id` varchar(40) NOT NULL,
+	`email_id` varchar(50) NOT NULL,
 	`contraseña` varchar(40) NOT NULL,
 	`usuario_valido` BOOLEAN NOT NULL,
 	`placa` varchar(6),
