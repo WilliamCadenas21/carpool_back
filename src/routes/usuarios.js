@@ -83,12 +83,22 @@ router.post('/users/login', (req, res) => {
   const password  = req.body.password;
   console.log('1: '+email_id+' 2: '+password); 
   sequilize
-    .query('SELECT contraseña, usuario_valido FROM usuarios WHERE email_id = ?',
+    .query('SELECT contraseña,email_id, usuario_valido,nombres, apellidos,placa,edad,carrera,semestre FROM usuarios WHERE email_id = ?',
     {raw: true, replacements: [email_id]})
     .then(rows => {
         if(rows[0][0].contraseña == password){
           if(rows[0][0].usuario_valido == 1){
-            res.send({'success': true, message: 'usuario valido'});
+            res.send({'success': true, 
+            message: 'usuario valido',
+            names:rows[0][0].nombres,
+            lasNames:rows[0][0].apellidos,
+            placa:rows[0][0].placa,
+            age:rows[0][0].edad,
+            carrera:rows[0][0].carrera,
+            semestre:rows[0][0].semestre,
+            email:rows[0][0].email_id
+
+          });
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
           }
