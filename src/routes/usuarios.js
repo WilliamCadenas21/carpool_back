@@ -91,7 +91,7 @@ router.post('/users/login', (req, res) => {
             res.send({'success': true, 
             message: 'usuario valido',
             names:rows[0][0].nombres,
-            lasNames:rows[0][0].apellidos,
+            lastNames:rows[0][0].apellidos,
             placa:rows[0][0].placa,
             age:rows[0][0].edad,
             carrera:rows[0][0].carrera,
