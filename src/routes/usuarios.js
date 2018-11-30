@@ -81,7 +81,6 @@ router.post('/users/login', (req, res) => {
   }
   const email_id =req.body.email_id;
   const password  = req.body.password;
-  console.log('1: '+email_id+' 2: '+password); 
   sequilize
     .query('SELECT * FROM usuarios WHERE email_id = ?',
     {raw: true, replacements: [email_id]})
