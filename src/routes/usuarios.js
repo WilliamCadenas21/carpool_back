@@ -97,8 +97,8 @@ router.post('/users/login', (req, res) => {
             carrera:rows[0][0].carrera,
             semestre:rows[0][0].semestre,
             email:rows[0][0].email_id,
-            direccion:rows[0][0].email_id,
-            barrio:rows[0][0].email_id
+            direccion:rows[0][0].direccion,
+            barrio:rows[0][0].barrio
           });
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
