@@ -1,8 +1,9 @@
 {
   "name": "carpool_back",
   "version": "1.0.0",
-  "description": "",
+  "description": "a RESfull API",
   "main": "index.js",
+  "repository": "github and heroku",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js"
@@ -17,6 +18,6 @@
     "sequelize": "^4.41.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.6"
+    "nodemon": "^1.18.7"
   }
 }
