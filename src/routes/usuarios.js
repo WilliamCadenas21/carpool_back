@@ -52,7 +52,7 @@ router.post('/users/create', (req, res) => {
   const {nombres, apellidos, email_id, contraseña} = req.body;
   const query = `
   INSERT INTO usuarios  
-  VALUES (?,?,?,?,FALSE,NULL,NULL,NULL,NULL);`;
+  VALUES (?,?,?,?,FALSE,NULL,NULL,NULL,NULL,NULL,NULL);`;
   sequilize
     .query(query,
     { raw: true, replacements: [nombres, apellidos, email_id, contraseña] })
@@ -65,11 +65,11 @@ router.post('/users/create', (req, res) => {
       }
     })
     .catch(err => {
-       if(err.errors[0].message == 'PRIMARY must be unique'){
-         res.send({'success': false, 'message':'this email already has an account'});
-       }else{
-         res.send({'success': false, 'message':err.errors[0].message});
-       }
+      if(err.errors[0].message == 'PRIMARY must be unique'){
+        res.send({'success': false, 'message':'this email already has an account'});
+      }else{
+        res.send({'success': false, 'message':err.errors[0].message});
+      }
       res.send('error:'+err);
     });
 });
@@ -83,7 +83,7 @@ router.post('/users/login', (req, res) => {
   const password  = req.body.password;
   console.log('1: '+email_id+' 2: '+password); 
   sequilize
-    .query('SELECT contraseña,email_id, usuario_valido,nombres, apellidos,placa,edad,carrera,semestre FROM usuarios WHERE email_id = ?',
+    .query('SELECT * FROM usuarios WHERE email_id = ?',
     {raw: true, replacements: [email_id]})
     .then(rows => {
         if(rows[0][0].contraseña == password){
@@ -96,8 +96,9 @@ router.post('/users/login', (req, res) => {
             age:rows[0][0].edad,
             carrera:rows[0][0].carrera,
             semestre:rows[0][0].semestre,
-            email:rows[0][0].email_id
-
+            email:rows[0][0].email_id,
+            direccion:rows[0][0].email_id,
+            barrio:rows[0][0].email_id
           });
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
@@ -113,16 +114,16 @@ router.post('/users/login', (req, res) => {
 
 // UPDATE
 router.put('/users/update/:email_id', (req, res) => {
-  const { edad, carrera, semestre } = req.body;
+  const { edad, carrera, semestre, direccion, barrio } = req.body;
   const { email_id } = req.params;
   const query = `
     UPDATE usuarios
-      SET edad = ?, carrera= ?, semestre = ?
+      SET edad = ?, carrera= ?, semestre = ?, direccion = ?, barrio = ?
       WHERE email_id = ?;
   `;
   sequilize
   .query(query,
-  { raw: true, replacements: [edad, carrera, semestre, email_id]})
+  { raw: true, replacements: [edad, carrera, semestre, direccion, barrio, email_id]})
   .then(rows => {
     if(rows[0].affectedRows == 1){
       res.send({'success': true, 'message':'update successful'});

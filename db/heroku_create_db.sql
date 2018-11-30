@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 	`edad` INT,
 	`carrera` varchar(30),
 	`semestre` varchar(2),
+    `direccion` varchar(100),
+    `barrio` varchar(30),
 	PRIMARY KEY (`email_id`)
 );
 
