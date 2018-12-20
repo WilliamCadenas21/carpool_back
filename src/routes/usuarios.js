@@ -115,7 +115,7 @@ router.post('/users/login', (req, res) => {
 
 // UPDATE
 router.put('/users/update/:email_id', (req, res) => {
-  const { edad, carrera, semestre, direccion, barrio } = req.body;
+  const { age, degree, semester, address, neighborhood } = req.body;
   const { email_id } = req.params;
   const query = `
     UPDATE usuarios
@@ -124,7 +124,7 @@ router.put('/users/update/:email_id', (req, res) => {
   `;
   sequilize
   .query(query,
-  { raw: true, replacements: [edad, carrera, semestre, direccion, barrio, email_id]})
+  { raw: true, replacements: [age, degree, semester, address, neighborhood, email_id]})
   .then(rows => {
     if(rows[0].affectedRows == 1){
       res.send({'success': true, 'message':'update successful'});
