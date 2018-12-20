@@ -91,13 +91,13 @@ router.post('/users/login', (req, res) => {
             message: 'usuario valido',
             names:rows[0][0].nombres,
             lastNames:rows[0][0].apellidos,
-            placa:rows[0][0].placa,
+            plate:rows[0][0].placa,
             age:rows[0][0].edad,
-            carrera:rows[0][0].carrera,
-            semestre:rows[0][0].semestre,
+            degree:rows[0][0].carrera,
+            semester:rows[0][0].semestre,
             email:rows[0][0].email_id,
-            direccion:rows[0][0].direccion,
-            barrio:rows[0][0].barrio
+            address:rows[0][0].direccion,
+            neighborhood:rows[0][0].barrio
           });
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
