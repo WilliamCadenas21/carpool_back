@@ -89,15 +89,17 @@ router.post('/users/login', (req, res) => {
           if(rows[0][0].usuario_valido == 1){
             res.send({'success': true, 
             message: 'usuario valido',
-            names:rows[0][0].nombres,
-            lastNames:rows[0][0].apellidos,
-            plate:rows[0][0].placa,
-            age:rows[0][0].edad,
-            degree:rows[0][0].carrera,
-            semester:rows[0][0].semestre,
-            email:rows[0][0].email_id,
-            address:rows[0][0].direccion,
-            neighborhood:rows[0][0].barrio
+            user: {
+              names:rows[0][0].nombres,
+              lastNames:rows[0][0].apellidos,
+              plate:rows[0][0].placa,
+              age:rows[0][0].edad,
+              degree:rows[0][0].carrera,
+              semester:rows[0][0].semestre,
+              email:rows[0][0].email_id,
+              address:rows[0][0].direccion,
+              neighborhood:rows[0][0].barrio
+            }
           });
           }else{
             res.send({'success': false, message: 'por favor debe validar su usuario'});
