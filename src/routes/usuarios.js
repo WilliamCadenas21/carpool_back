@@ -6,46 +6,46 @@ const router = express.Router();
 const sendEmail = exp.method;
 
 router.get('/', (req, res) => {
-  res.send('welcome to my rest api');
+  res.send('What are you looking for ?');
 });
 
-router.get('/users/getAll', (req, res) => {
-  sequilize.query('SELECT * FROM usuarios').then(rows => {
-    res.json(rows[0]);
-  });
-});
+// router.get('/users/getAll', (req, res) => {
+//   sequilize.query('SELECT * FROM usuarios').then(rows => {
+//     res.json(rows[0]);
+//   });
+// });
 
 // GET
-router.get('/users/get/:email_id', (req, res) => {
-  const { email_id } = req.params;
-  sequilize
-    .query('SELECT * FROM usuarios WHERE email_id = ?',
-      { raw: true, replacements: [email_id] })
-    .then(rows => {
-      res.json(rows[0])
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });
-});
+// router.get('/users/get/:email_id', (req, res) => {
+//   const { email_id } = req.params;
+//   sequilize
+//     .query('SELECT * FROM usuarios WHERE email_id = ?',
+//       { raw: true, replacements: [email_id] })
+//     .then(rows => {
+//       res.json(rows[0])
+//     })
+//     .catch(err => {
+//       console.error('ERROR:', err);
+//     });
+// });
 
 // DELETE 
-router.delete('/users/delete/:email_id', (req, res) => {
-  const { email_id } = req.params;
-  sequilize
-    .query('DELETE FROM usuarios WHERE email_id = ?',
-      { raw: true, replacements: [email_id] })
-    .then(rows => {
-      if (rows[0].affectedRows == 1) {
-        res.send({ 'success': true, 'message': 'delete successful' });
-      } else {
-        res.send({ 'success': false, 'message': 'the email is wrong' });
-      }
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });
-});
+// router.delete('/users/delete/:email_id', (req, res) => {
+//   const { email_id } = req.params;
+//   sequilize
+//     .query('DELETE FROM usuarios WHERE email_id = ?',
+//       { raw: true, replacements: [email_id] })
+//     .then(rows => {
+//       if (rows[0].affectedRows == 1) {
+//         res.send({ 'success': true, 'message': 'delete successful' });
+//       } else {
+//         res.send({ 'success': false, 'message': 'the email is wrong' });
+//       }
+//     })
+//     .catch(err => {
+//       console.error('ERROR:', err);
+//     });
+// });
 
 
 // CREATE

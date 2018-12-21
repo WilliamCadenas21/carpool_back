@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const account = {
   user: 'service2.carpool.vita@gmail.com',
   pass: '$Carpool2'
-}
+};
 
 const SEED = 'secretword';
 
@@ -42,9 +42,9 @@ function sendEmail(names, email) {
       console.log(err);
     }
   });
-};
+}
 
 module.exports = {
   method: sendEmail,
   seed: SEED
-}
+};
