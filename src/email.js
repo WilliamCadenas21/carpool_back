@@ -6,24 +6,25 @@ const account = {
   pass: '$Carpool2'
 };
 
-const SEED = 'secretword';
+const SEED = 'secretWord';
 
 function sendEmail(names, email) {
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: account.user,
       pass: account.pass
     }
   });
+
   const user = {
     username: names,
-    email: email
-  }
+    email
+  };
 
   jwt.sign({ user }, SEED, { expiresIn: '7d' }, (err, token1) => {
     if (!err) {
-      let mailOptions = {
+      const mailOptions = {
         from: '<service.carpool.vita@gmail.com>', // sender address
         to: `${email}`, // list of receivers
         subject: 'valida tu cuenta con Carpool✔', // Subject line
@@ -31,7 +32,6 @@ function sendEmail(names, email) {
         click en el siguiente enlace 
         <a href='https://carpool-back.herokuapp.com/confirmation/${token1}'>aquí</a><h2>` // html body
       };
-      console.log('token:' + token1);
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log(error);
