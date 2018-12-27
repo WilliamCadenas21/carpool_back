@@ -90,16 +90,10 @@ router.post('/users/login', (req, res) => {
     });
 });
 
-
-
-
 // UPDATE
 router.put('/users/update/rider', (req, res) => {
-  console.log(req.body);
-  const { email_id, userToken, age, degree, semester, address, neighborhood } = req.body;
-  console.log(email_id);
-  console.log(userToken);
-  jwt.verify(userToken, SEED, (err, authData) => {
+  const { email_id, token, age, degree, semester, address, neighborhood } = req.body;
+  jwt.verify(token, SEED, (err, authData) => {
     if (err) {
       res.send({ success: false, message: err });
     } else if (authData.user.email === email_id) {
