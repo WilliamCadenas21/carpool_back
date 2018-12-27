@@ -56,7 +56,7 @@ router.post('/users/login', (req, res) => {
           };
           jwt.sign({ user }, SEED, { expiresIn: '1d' }, (err, token) => {
             if (!err) {
-              if (! rows[0][0].placa) {
+              if (!rows[0][0].placa) {
                 res.send({
                   success: true,
                   message: 'usuario valido',
@@ -73,9 +73,7 @@ router.post('/users/login', (req, res) => {
                     token
                   }
                 });
-              } else {
-
-              }
+              } 
             } else {
               res.send({ success: false, message: err });
             }
@@ -134,8 +132,8 @@ router.put('/users/update/rider', (req, res) => {
 //Update conductor
 router.post('/users/create/driver', (req, res) => {
   console.log(req.body);
-  const { email_id, userToken, plate, model, color, brand } = req.body;
-  jwt.verify(userToken, SEED, (err, authData) => {
+  const { email_id, token, car } = req.body;
+  jwt.verify(token, SEED, (err, authData) => {
     if (err) {
       res.send({ success: false, message: err });
     } else if (authData.user.email === email_id) {
