@@ -1,2 +1,2 @@
 INSERT INTO vehiculos
-VALUES ('qfd993','Megane','rojo','renault','wcadenas@uninorte.edu.co');
+VALUES ('qfd994','3','blanco','mazda','empertuz@uninorte.edu.co');

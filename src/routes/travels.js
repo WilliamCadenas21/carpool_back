@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sequilize = require('../database.js');
 
-router.get('/getTravels/:token', (req, res) => {
+router.post('/getTravels/:token', (req, res) => {
     const { token } = req.params;
     jwt.verify(token, SEED, (err, authData) => {
         if (err) {
@@ -13,7 +13,7 @@ router.get('/getTravels/:token', (req, res) => {
                 .query('UPDATE usuarios SET usuario_valido = 1 WHERE email_id = ?',
                     { raw: true, replacements: [userEmail] })
                 .then(rows => {
-                    res.send('<h1>felicidades ya pudes entrar a la app y empezar a carpoolear</h1>');
+                    res.send('<h1>felicidades ya puedes entrar a la app y empezar a Carpoolear</h1>');
                 })
                 .catch(err => {
                     res.send({ 'success': false, 'message': 'el usuario no fue encontrado' });
