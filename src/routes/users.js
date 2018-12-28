@@ -2,11 +2,10 @@ const express = require('express');
 const sequilize = require('../database.js');
 const exp = require('../email.js');
 const jwt = require('jsonwebtoken');
+const { SEED } = require('../config');
 
 const router = express.Router();
 const sendEmail = exp.method;
-
-const SEED = 'secretword';
 
 router.get('/', (req, res) => {
   res.send('What are you looking for ?');

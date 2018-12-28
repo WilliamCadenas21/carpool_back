@@ -26,9 +26,11 @@ CREATE TABLE IF NOT EXISTS `vehiculos` (
 
 CREATE TABLE IF NOT EXISTS `viajes` (
 	`id_viaje` INT(10) NOT NULL AUTO_INCREMENT,
-	`ubicación_inicial` varchar(30) NOT NULL,
-	`ubicación_final` varchar(30) NOT NULL,
-	`hora_salida` DATETIME NOT NULL,
+	`ubicación_inicial` varchar(100) NOT NULL,
+	`ubicación_final` varchar(100) NOT NULL,
+	`fecha_hora` varchar(100) NOT NULL,
+    `puestos` INT(2) NOT NULL,
+    `estado` varchar(30) NOT NULL,
     `email_id_conductor` varchar(30) NOT NULL,
 	PRIMARY KEY (`id_viaje`)
 );

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const sequilize = require('../database.js');
+const { SEED } = require('../config');
 
-router.post('/getTravels/:token', (req, res) => {
+// CREATE
+router.post('/create/travel', (req, res) => {
     const { token } = req.params;
     jwt.verify(token, SEED, (err, authData) => {
         if (err) {
@@ -16,7 +18,7 @@ router.post('/getTravels/:token', (req, res) => {
                     res.send('<h1>felicidades ya puedes entrar a la app y empezar a Carpoolear</h1>');
                 })
                 .catch(err => {
-                    res.send({ 'success': false, 'message': 'el usuario no fue encontrado' });
+                    res.send({ success: false, message: 'el usuario no fue encontrado' });
                 });
         }
     });
