@@ -73,7 +73,7 @@ router.post('/users/login', (req, res) => {
                     token
                   }
                 });
-              } 
+              }
             } else {
               res.send({ success: false, message: err });
             }
@@ -128,10 +128,11 @@ router.put('/users/update/rider', (req, res) => {
 router.post('/users/create/driver', (req, res) => {
   console.log(req.body);
   const { email_id, token, car } = req.body;
+  const { plate, model, color, brand } = car;
   jwt.verify(token, SEED, (err, authData) => {
     if (err) {
       res.send({ success: false, message: err });
-    } else if (authData.user.email === email_id) {
+    } else if (authData.user.email == email_id) {
       const query = `UPDATE usuarios SET placa = ? WHERE email_id = ?;
       INSERT INTO vehiculos VALUES (?,?,?,?,?);`;
       sequilize
@@ -139,14 +140,14 @@ router.post('/users/create/driver', (req, res) => {
           { raw: true, replacements: [plate, email_id, plate, model, color, brand, email_id] })
         .then(rows => {
           console.log(rows);
-          if (rows[0][0].affectedRows === 1) {
+          if (rows[0][0].affectedRows == 1) {
             res.send({ success: true, message: 'create successful' });
           } else {
             res.send({ success: false, message: 'the email is wrong' });
           }
         })
         .catch(error => {
-          res.send({ success: false, message: 'has been a problem' });
+          res.send({ success: false, message: error });
         });
     } else {
       res.send({ success: false, message: 'bad request' });
