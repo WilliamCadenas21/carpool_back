@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 	`contraseña` varchar(40) NOT NULL,
 	`usuario_valido` BOOLEAN NOT NULL,
 	`placa` varchar(6),
-	`edad` INT,
+	`edad` int(2),
 	`carrera` varchar(30),
 	`semestre` varchar(2),
     `direccion` varchar(100),
@@ -25,21 +25,22 @@ CREATE TABLE IF NOT EXISTS `vehiculos` (
 );
 
 CREATE TABLE IF NOT EXISTS `viajes` (
-	`id_viaje` INT(10) NOT NULL AUTO_INCREMENT,
+	`id_viaje` int(1) NOT NULL auto_increment,
 	`ubicación_inicial` varchar(100) NOT NULL,
 	`ubicación_final` varchar(100) NOT NULL,
 	`fecha_hora` varchar(100) NOT NULL,
-    `puestos` INT(2) NOT NULL,
+    `puestos` int NOT NULL,
     `estado` varchar(30) NOT NULL,
     `email_id_conductor` varchar(30) NOT NULL,
 	PRIMARY KEY (`id_viaje`)
 );
 
 CREATE TABLE IF NOT EXISTS `pasajeros_viajes` (
-	`id_viaje` INT(10) NOT NULL,
+	`id_viaje` int(1) NOT NULL,
 	`email_id` varchar(30) NOT NULL,
 	PRIMARY KEY (`id_viaje`,`email_id`)
 );
+
 
 ALTER TABLE `vehiculos` ADD CONSTRAINT `vehiculos_fk0` FOREIGN KEY (`email_id`) REFERENCES `usuarios`(`email_id`);
 
