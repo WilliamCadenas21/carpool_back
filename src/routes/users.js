@@ -96,7 +96,7 @@ router.put('/users/update/rider', (req, res) => {
   jwt.verify(token, SEED, (err, authData) => {
     if (err) {
       res.send({ success: false, message: err });
-    } else if (authData.user.email === email_id) {
+    } else if (authData.user.email == email_id) {
       const query = `UPDATE usuarios SET 
         edad = ?, 
         carrera= ?, 
@@ -108,7 +108,8 @@ router.put('/users/update/rider', (req, res) => {
         .query(query,
           { raw: true, replacements: [age, degree, semester, address, neighborhood, email_id] })
         .then(rows => {
-          if (rows[0].affectedRows === 1) {
+          console.log(rows);
+          if (rows[0].affectedRows == 1) {
             res.send({ success: true, message: 'update successful' });
           } else {
             res.send({ success: false, message: 'the email is wrong' });
