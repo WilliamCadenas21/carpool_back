@@ -70,8 +70,6 @@ router.post('/users/login', (req, res) => {
             } else {
               res.send({ success: false, message: err });
             }
-          }).catch(err => {
-            res.send({ success: false, message: err });
           });
         } else {
           res.send({ success: false, message: 'por favor debe validar su usuario' });
