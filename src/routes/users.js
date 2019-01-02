@@ -1,7 +1,7 @@
 const express = require('express');
-const sequilize = require('../database.js');
-const exp = require('../email.js');
 const jwt = require('jsonwebtoken');
+const sequilize = require('../database');
+const exp = require('../email');
 const { SEED } = require('../config');
 
 const router = express.Router();
@@ -40,52 +40,48 @@ router.post('/users/create', (req, res) => {
 
 // LOGIN
 router.post('/users/login', (req, res) => {
-  if (req.body === null) {
-    res.send({ success: false, message: 'res.body is null' });
-  }
   const { email_id, password } = req.body;
   const query = 'SELECT * FROM usuarios WHERE email_id = ?';
   sequilize.query(query, { raw: true, replacements: [email_id] })
     .then(rows => {
-      console.log(rows);
-      if (rows[0][0].contraseña === password) {
-        if (rows[0][0].usuario_valido === 1) {
+      if (rows[0][0].contraseña == password) {
+        if (rows[0][0].usuario_valido == 1) {
           const user = {
             email: email_id
           };
           jwt.sign({ user }, SEED, { expiresIn: '1d' }, (err, token) => {
             if (!err) {
-              if (!rows[0][0].placa) {
-                res.send({
-                  success: true,
-                  message: 'usuario valido',
-                  user: {
-                    names: rows[0][0].nombres,
-                    lastNames: rows[0][0].apellidos,
-                    plate: rows[0][0].placa,
-                    age: rows[0][0].edad,
-                    degree: rows[0][0].carrera,
-                    semester: rows[0][0].semestre,
-                    email: rows[0][0].email_id,
-                    address: rows[0][0].direccion,
-                    neighborhood: rows[0][0].barrio,
-                    token
-                  }
-                });
-              }
+              res.send({
+                success: true,
+                message: 'usuario valido',
+                user: {
+                  names: rows[0][0].nombres,
+                  lastNames: rows[0][0].apellidos,
+                  plate: rows[0][0].placa,
+                  age: rows[0][0].edad,
+                  degree: rows[0][0].carrera,
+                  semester: rows[0][0].semestre,
+                  email: rows[0][0].email_id,
+                  address: rows[0][0].direccion,
+                  neighborhood: rows[0][0].barrio,
+                  token
+                }
+              });
             } else {
               res.send({ success: false, message: err });
             }
+          }).catch(err => {
+            res.send({ success: false, message: err });
           });
         } else {
-          return res.send({ success: false, message: 'por favor debe validar su usuario' });
+          res.send({ success: false, message: 'por favor debe validar su usuario' });
         }
       } else {
-        return res.send({ success: false, message: 'el password no coincide' });
+        res.send({ success: false, message: 'el password no coincide' });
       }
     })
     .catch(err => {
-      return res.send({ success: false, message: 'su correo no coincide' });
+      res.send({ success: false, message: err });
     });
 });
 
