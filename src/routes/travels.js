@@ -13,8 +13,8 @@ router.post('/travels/create', async (req, res) => {
         const auth = await verifyToken(token);
         if (auth.user.email === email) {
             const newTravel = Travel.build({ ...travel, emailDriver: email });
-            await newTravel.save();
-            res.send({ success: true, message: 'create successful' });
+            const response = await newTravel.save();
+            res.send({ success: true, message: response });
         } else {
             res.send({ success: false, message: 'bad request' });
         }

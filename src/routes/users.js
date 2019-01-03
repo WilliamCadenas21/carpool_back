@@ -43,7 +43,6 @@ router.post('/users/login', async (req, res) => {
     const query = 'SELECT * FROM users WHERE email = ?';
     const obj = { raw: true, replacements: [email] };
     const response = await sequilize.query(query, obj);
-    console.log(response);
     const { password, emailConfirmed } = response[0][0];
     const userToSend = response[0][0];
 
@@ -145,8 +144,8 @@ router.post('/verify', async (req, res) => {
     if (auth) {
       res.send(auth);
     }
-  } catch (err) {
-    res.send(`${err}`);
+  } catch (e) {
+    res.send(`${e}`);
   }
 });
 
