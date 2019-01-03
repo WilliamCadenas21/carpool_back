@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const sequilize = require('../database');
 const exp = require('../email');
 const { SEED } = require('../config');
+const { verifyToken } = require('../lib/auth');
 
 const router = express.Router();
 const sendEmail = exp.method;
@@ -36,6 +37,19 @@ router.post('/users/create', (req, res) => {
       }
       res.send(`error: ${err}`);
     });
+});
+
+//ruta de prueba de concepto
+router.post('/verify', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const auth = await verifyToken(token);
+    if (auth) {
+      res.send(auth);
+    }
+  } catch (err) {
+    res.send('error: ' + err);
+  }
 });
 
 // LOGIN
@@ -79,42 +93,43 @@ router.post('/users/login', (req, res) => {
       }
     })
     .catch(err => {
-      res.send({ success: false, message: err });
+      res.send({ success: false, message: `error: ${err}` });
     });
 });
 
-// UPDATE
-router.put('/users/update/rider', (req, res) => {
-  const { email_id, token, age, degree, semester, address, neighborhood } = req.body;
-  jwt.verify(token, SEED, (err, authData) => {
-    if (err) {
-      res.send({ success: false, message: err });
-    } else if (authData.user.email == email_id) {
+// UPDATE async/await implemented
+router.put('/users/update/rider', async (req, res) => {
+  try {
+    const { email_id, token, age, degree, semester, address, neighborhood } = req.body;
+    const auth = await verifyToken(token);
+
+    if (auth.user.email == email_id) {
       const query = `UPDATE usuarios SET 
-        edad = ?, 
-        carrera= ?, 
-        semestre = ?, 
-        direccion = ?, 
-        barrio = ?
-        WHERE email_id = ?;`;
-      sequilize
-        .query(query,
-          { raw: true, replacements: [age, degree, semester, address, neighborhood, email_id] })
-        .then(rows => {
-          console.log(rows);
-          if (rows[0].affectedRows == 1) {
-            res.send({ success: true, message: 'update successful' });
-          } else {
-            res.send({ success: false, message: 'the email is wrong' });
-          }
-        })
-        .catch(error => {
-          res.send({ success: false, message: 'has been a problem' });
-        });
+          edad = ?, 
+          carrera= ?, 
+          semestre = ?, 
+          direccion = ?,
+          barrio = ?
+          WHERE email_id = ?;`;
+
+      const obj = {
+        raw: true,
+        replacements: [age, degree, semester, address, neighborhood, email_id]
+      };
+
+      const response = await sequilize.query(query, obj);
+
+      if (response[0].affectedRows == 1) {
+        res.send({ success: true, message: 'update successful' });
+      } else {
+        res.send({ success: false, message: 'the info stay equal' });
+      }
     } else {
       res.send({ success: false, message: 'bad request' });
     }
-  });
+  } catch (e) {
+    res.send({ success: false, message: `${e}` });
+  }
 });
 
 //Update conductor
