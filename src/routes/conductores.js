@@ -1,5 +1,5 @@
 const express = require('express');
-const sequilize = require('../database');
+const sequilize = require('../db/dataBaseConfig');
 
 const router = express.Router();
 

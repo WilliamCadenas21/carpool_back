@@ -8,7 +8,8 @@ const sequelize = new Sequelize('heroku_025b0710027001d', 'babab61ebbf682', 'a1c
   dialect: 'mysql',
   dialectOptions: {
     multipleStatements: true
-  }
+  },
+  operatorsAliases: false
 });
 
 sequelize

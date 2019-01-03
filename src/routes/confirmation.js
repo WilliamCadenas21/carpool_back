@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { SEED } = require('../lib/config');
-const sequilize = require('../database');
+const sequilize = require('../db/dataBaseConfig');
 
 const router = express.Router();
 

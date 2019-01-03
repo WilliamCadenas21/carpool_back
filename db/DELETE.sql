@@ -1,1 +1,0 @@
-DELETE FROM usuarios where email_id = 'wcadenas@uninorte.edu.co'

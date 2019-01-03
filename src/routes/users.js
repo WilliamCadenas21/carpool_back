@@ -1,42 +1,39 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const sequilize = require('../database');
-const exp = require('../lib/email');
+const sequilize = require('../db/dataBaseConfig');
+const { sendEmail } = require('../lib/email');
 const { SEED } = require('../lib/config');
 const { verifyToken } = require('../lib/auth');
+const User = require('../db/models/userModel');
 
 const router = express.Router();
-const sendEmail = exp.method;
 
 router.get('/', (req, res) => {
   res.send('What are you looking for ?');
 });
 
 // CREATE
-router.post('/users/create', (req, res) => {
-  const { nombres, apellidos, email_id, contraseña } = req.body;
-  const query = `
-  INSERT INTO usuarios  
-  VALUES (?,?,?,?,FALSE,NULL,NULL,NULL,NULL,NULL,NULL);`;
-  sequilize
-    .query(query,
-      { raw: true, replacements: [nombres, apellidos, email_id, contraseña] })
-    .then(rows => {
-      if (rows[0] === 0) {
-        sendEmail(nombres, email_id);
-        res.send({ success: true, massage: 'please enter in your email and confirm your account' });
-      } else {
-        res.send({ success: false, message: 'the response it is not zero' });
-      }
-    })
-    .catch(err => {
-      if (err.errors[0].message == 'PRIMARY must be unique') {
-        res.send({ success: false, message: 'this email already has an account' });
-      } else {
-        res.send({ success: false, message: err.errors[0].message });
-      }
-      res.send(`error: ${err}`);
+router.post('/users/create', async (req, res) => {
+  try {
+    const { names, lastNames, password, email } = req.body;
+    const user = User.build({
+      names,
+      lastNames,
+      password,
+      email,
     });
+
+    await user.save();
+    await sendEmail(names, email);
+    res.send({ success: true, massage: 'please enter in your email and confirm your account' });
+  } catch (e) {
+    console.log(e);
+    if (e.name === 'SequelizeUniqueConstraintError') {
+      res.send({ success: false, message: 'this email already has an account' });
+    } else {
+      res.send({ success: false, message: `${e}` });
+    }
+  }
 });
 
 // LOGIN
