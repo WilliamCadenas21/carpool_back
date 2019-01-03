@@ -38,14 +38,16 @@ router.post('/users/create', async (req, res) => {
 
 // LOGIN
 router.post('/users/login', (req, res) => {
-  const { email_id, password } = req.body;
-  const query = 'SELECT * FROM usuarios WHERE email_id = ?';
-  sequilize.query(query, { raw: true, replacements: [email_id] })
+  const { email } = req.body;
+  const query = 'SELECT * FROM users WHERE email = ?';
+  sequilize.query(query, { raw: true, replacements: [email] })
     .then(rows => {
-      if (rows[0][0].contraseña == password) {
-        if (rows[0][0].usuario_valido == 1) {
+      const { password, emailConfirmed } = rows[0][0];
+      const userToSend = rows[0][0]
+      if (password == req.body.password) {
+        if (emailConfirmed == 1) {
           const user = {
-            email: email_id
+            email
           };
           jwt.sign({ user }, SEED, { expiresIn: '1d' }, (err, token) => {
             if (!err) {
@@ -53,15 +55,7 @@ router.post('/users/login', (req, res) => {
                 success: true,
                 message: 'usuario valido',
                 user: {
-                  names: rows[0][0].nombres,
-                  lastNames: rows[0][0].apellidos,
-                  plate: rows[0][0].placa,
-                  age: rows[0][0].edad,
-                  degree: rows[0][0].carrera,
-                  semester: rows[0][0].semestre,
-                  email: rows[0][0].email_id,
-                  address: rows[0][0].direccion,
-                  neighborhood: rows[0][0].barrio,
+                  ...userToSend,
                   token
                 }
               });
@@ -81,29 +75,29 @@ router.post('/users/login', (req, res) => {
     });
 });
 
-// UPDATE async/await implemented
+// UPDATE 
 router.put('/users/update/rider', async (req, res) => {
   try {
-    const { email_id, token, age, degree, semester, address, neighborhood } = req.body;
+    const { email, token, age, degree, semester, address, neighborhood } = req.body;
     const auth = await verifyToken(token);
 
-    if (auth.user.email == email_id) {
-      const query = `UPDATE usuarios SET 
-          edad = ?, 
-          carrera= ?, 
-          semestre = ?, 
-          direccion = ?,
-          barrio = ?
-          WHERE email_id = ?;`;
+    if (auth.user.email === email) {
+      const query = `UPDATE users SET 
+          age = ?, 
+          degree= ?, 
+          semester = ?, 
+          address = ?,
+          neighborhood = ?
+          WHERE email = ?;`;
 
       const obj = {
         raw: true,
-        replacements: [age, degree, semester, address, neighborhood, email_id]
+        replacements: [age, degree, semester, address, neighborhood, email]
       };
 
       const response = await sequilize.query(query, obj);
-
-      if (response[0].affectedRows == 1) {
+      
+      if (response[0].affectedRows === 1) {
         res.send({ success: true, message: 'update successful' });
       } else {
         res.send({ success: false, message: 'the info stay equal' });
@@ -155,7 +149,7 @@ router.post('/verify', async (req, res) => {
       res.send(auth);
     }
   } catch (err) {
-    res.send('error: ' + err);
+    res.send(`${err}`);
   }
 });
 

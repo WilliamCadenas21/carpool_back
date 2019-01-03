@@ -1,28 +1,21 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const { SEED } = require('../lib/config');
 const sequilize = require('../db/dataBaseConfig');
+const { verifyToken } = require('../lib/auth');
 
 const router = express.Router();
 
-router.get('/confirmation/:token', (req, res) => {
-  const { token } = req.params;
-  jwt.verify(token, SEED, (err, authData) => {
-    if (err) {
-      res.send({ success: false, message: err });
-    } else {
-      const userEmail = authData.user.email;
-      sequilize
-        .query('UPDATE usuarios SET usuario_valido = 1 WHERE email_id = ?',
-          { raw: true, replacements: [userEmail] })
-        .then(rows => {
-          res.send('<h1>felicidades ya puedes entrar a la app y empezar a Carpoolear</h1>');
-        })
-        .catch(err => {
-          res.send({ success: false, message: 'bad request' });
-        });
-    }
-  });
+router.get('/confirmation/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const auth = await verifyToken(token);
+    const userEmail = auth.user.email;
+    const query = 'UPDATE users SET emailConfirmed = 1 WHERE email = ?';
+    const obj = { raw: true, replacements: [userEmail] };
+    await sequilize.query(query, obj);
+    res.send('<h1>felicidades ya puedes entrar a la app y empezar a Carpoolear</h1>');
+  } catch (e) {
+    res.send(`${e}`);
+  }
 });
 
 module.exports = router;
