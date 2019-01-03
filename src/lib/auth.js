@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { SEED } = require('../config');
+const { SEED } = require('./config');
 
 const functions = {};
 

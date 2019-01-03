@@ -6,9 +6,9 @@ const account = {
   pass: '$Carpool2'
 };
 
-const SEED = 'secretWord';
+const obj = {};
 
-function sendEmail(names, email) {
+obj.sendEmail = (names, email) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -42,9 +42,6 @@ function sendEmail(names, email) {
       console.log(err);
     }
   });
-}
-
-module.exports = {
-  method: sendEmail,
-  seed: SEED
 };
+
+module.exports = obj;

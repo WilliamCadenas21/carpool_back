@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const jwt = require('jsonwebtoken');
-const exp = require('../email.js');
-const sequilize = require('../database.js');
+const { SEED } = require('../lib/config');
+const sequilize = require('../database');
 
-const SEED = exp.seed;
+const router = express.Router();
 
 router.get('/confirmation/:token', (req, res) => {
   const { token } = req.params;

@@ -1,8 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const sequilize = require('../database');
-const exp = require('../email');
-const { SEED } = require('../config');
+const exp = require('../lib/email');
+const { SEED } = require('../lib/config');
 const { verifyToken } = require('../lib/auth');
 
 const router = express.Router();
@@ -37,19 +37,6 @@ router.post('/users/create', (req, res) => {
       }
       res.send(`error: ${err}`);
     });
-});
-
-//ruta de prueba de concepto
-router.post('/verify', async (req, res) => {
-  try {
-    const { token } = req.body;
-    const auth = await verifyToken(token);
-    if (auth) {
-      res.send(auth);
-    }
-  } catch (err) {
-    res.send('error: ' + err);
-  }
 });
 
 // LOGIN
@@ -134,7 +121,6 @@ router.put('/users/update/rider', async (req, res) => {
 
 //Update conductor
 router.post('/users/create/driver', (req, res) => {
-  console.log(req.body);
   const { email_id, token, car } = req.body;
   const { plate, model, color, brand } = car;
   jwt.verify(token, SEED, (err, authData) => {
@@ -163,42 +149,17 @@ router.post('/users/create/driver', (req, res) => {
   });
 });
 
+//ruta de prueba de concepto
+router.post('/verify', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const auth = await verifyToken(token);
+    if (auth) {
+      res.send(auth);
+    }
+  } catch (err) {
+    res.send('error: ' + err);
+  }
+});
+
 module.exports = router;
-
-// router.get('/users/getAll', (req, res) => {
-//   sequilize.query('SELECT * FROM usuarios').then(rows => {
-//     res.json(rows[0]);
-//   });
-// });
-
-// GET
-// router.get('/users/get/:email_id', (req, res) => {
-//   const { email_id } = req.params;
-//   sequilize
-//     .query('SELECT * FROM usuarios WHERE email_id = ?',
-//       { raw: true, replacements: [email_id] })
-//     .then(rows => {
-//       res.json(rows[0])
-//     })
-//     .catch(err => {
-//       console.error('ERROR:', err);
-//     });
-// });
-
-// DELETE 
-// router.delete('/users/delete/:email_id', (req, res) => {
-//   const { email_id } = req.params;
-//   sequilize
-//     .query('DELETE FROM usuarios WHERE email_id = ?',
-//       { raw: true, replacements: [email_id] })
-//     .then(rows => {
-//       if (rows[0].affectedRows == 1) {
-//         res.send({ 'success': true, 'message': 'delete successful' });
-//       } else {
-//         res.send({ 'success': false, 'message': 'the email is wrong' });
-//       }
-//     })
-//     .catch(err => {
-//       console.error('ERROR:', err);
-//     });
-// });
