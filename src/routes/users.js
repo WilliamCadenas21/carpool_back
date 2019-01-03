@@ -37,42 +37,39 @@ router.post('/users/create', async (req, res) => {
 });
 
 // LOGIN
-router.post('/users/login', (req, res) => {
-  const { email } = req.body;
-  const query = 'SELECT * FROM users WHERE email = ?';
-  sequilize.query(query, { raw: true, replacements: [email] })
-    .then(rows => {
-      const { password, emailConfirmed } = rows[0][0];
-      const userToSend = rows[0][0]
-      if (password == req.body.password) {
-        if (emailConfirmed == 1) {
-          const user = {
-            email
-          };
-          jwt.sign({ user }, SEED, { expiresIn: '1d' }, (err, token) => {
-            if (!err) {
-              res.send({
-                success: true,
-                message: 'usuario valido',
-                user: {
-                  ...userToSend,
-                  token
-                }
-              });
-            } else {
-              res.send({ success: false, message: err });
-            }
-          });
-        } else {
-          res.send({ success: false, message: 'por favor debe validar su usuario' });
-        }
+router.post('/users/login', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const query = 'SELECT * FROM users WHERE email = ?';
+    const obj = { raw: true, replacements: [email] };
+    const response = await sequilize.query(query, obj);
+    console.log(response);
+    const { password, emailConfirmed } = response[0][0];
+    const userToSend = response[0][0];
+
+    if (password === req.body.password) {
+      if (emailConfirmed === 1) {
+        const user = {
+          email
+        };
+        const token = await jwt.sign({ user }, SEED, { expiresIn: '1d' });
+        res.send({
+          success: true,
+          message: 'usuario valido',
+          user: {
+            ...userToSend,
+            token
+          }
+        });
       } else {
-        res.send({ success: false, message: 'el password no coincide' });
+        res.send({ success: false, message: 'por favor debe validar su usuario' });
       }
-    })
-    .catch(err => {
-      res.send({ success: false, message: `error: ${err}` });
-    });
+    } else {
+      res.send({ success: false, message: 'usuario invalido' });
+    }
+  } catch (e) {
+    res.send({ success: false, message: `${e}` });
+  }
 });
 
 // UPDATE 
@@ -97,7 +94,7 @@ router.put('/users/update/rider', async (req, res) => {
 
       const response = await sequilize.query(query, obj);
       
-      if (response[0].affectedRows === 1) {
+      if (response[0][0].affectedRows === 1) {
         res.send({ success: true, message: 'update successful' });
       } else {
         res.send({ success: false, message: 'the info stay equal' });
@@ -117,7 +114,7 @@ router.post('/users/create/driver', (req, res) => {
   jwt.verify(token, SEED, (err, authData) => {
     if (err) {
       res.send({ success: false, message: err });
-    } else if (authData.user.email == email_id) {
+    } else if (authData.user.email === email_id) {
       const query = `UPDATE usuarios SET placa = ? WHERE email_id = ?;
       INSERT INTO vehiculos VALUES (?,?,?,?,?);`;
       sequilize
@@ -125,7 +122,7 @@ router.post('/users/create/driver', (req, res) => {
           { raw: true, replacements: [plate, email_id, plate, model, color, brand, email_id] })
         .then(rows => {
           console.log(rows);
-          if (rows[0][0].affectedRows == 1) {
+          if (rows[0][0].affectedRows === 1) {
             res.send({ success: true, message: 'create successful' });
           } else {
             res.send({ success: false, message: 'the email is wrong' });
