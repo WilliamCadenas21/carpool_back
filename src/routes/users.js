@@ -6,6 +6,7 @@ const { SEED } = require('../lib/config');
 const { verifyToken } = require('../lib/auth');
 const User = require('../db/models/userModel');
 const { encryptPassword, matchPassword } = require('../lib/bcrypt');
+const { prepareToSend } = require('../lib/helpers'); 
 
 const router = express.Router();
 
@@ -46,9 +47,11 @@ router.post('/users/login', async (req, res) => {
     const obj = { raw: true, replacements: [email] };
     const response = await sequilize.query(query, obj);
     const { password, emailConfirmed } = response[0][0];
-    const userToSend = response[0][0];
+
+    //get rid of the password
+    const userToSend = prepareToSend(response[0][0]);
     const match = await matchPassword(plainPassword, password);
-    
+
     if (match) {
       if (emailConfirmed === 1) {
         const user = {
