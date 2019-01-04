@@ -1,1 +1,1 @@
-DELETE FROM users where email = 'wcadenas@uninorte.edu.co'
+DELETE FROM users where email = 'wcadena@uninorte.edu.co'

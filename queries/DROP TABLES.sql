@@ -1,7 +1,7 @@
 SET foreign_key_checks = 0;
 -- Drop tables
-DROP TABLE `heroku_025b0710027001d`.`vehiculos`;
-DROP TABLE `heroku_025b0710027001d`.`usuarios`;
-DROP TABLE `heroku_025b0710027001d`.`pasajeros_viajes`;
-DROP TABLE `heroku_025b0710027001d`.`viajes`;
+DROP TABLE `heroku_025b0710027001d`.`vehicles`;
+DROP TABLE `heroku_025b0710027001d`.`users`;
+DROP TABLE `heroku_025b0710027001d`.`riders`;
+DROP TABLE `heroku_025b0710027001d`.`travels`;
 SET foreign_key_checks = 1;
