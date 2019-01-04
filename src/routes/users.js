@@ -6,7 +6,7 @@ const { SEED } = require('../lib/config');
 const { verifyToken } = require('../lib/auth');
 const User = require('../db/models/userModel');
 const { encryptPassword, matchPassword } = require('../lib/bcrypt');
-const { prepareToSend } = require('../lib/helpers'); 
+const { prepareToSend } = require('../lib/helpers');
 
 const router = express.Router();
 
@@ -98,8 +98,7 @@ router.put('/users/update/rider', async (req, res) => {
       };
 
       const response = await sequilize.query(query, obj);
-
-      if (response[0][0].affectedRows === 1) {
+      if (response[0].affectedRows === 1) {
         res.send({ success: true, message: 'update successful' });
       } else {
         res.send({ success: false, message: 'the info stay equal' });
@@ -112,70 +111,32 @@ router.put('/users/update/rider', async (req, res) => {
   }
 });
 
-//Update conductor
-router.post('/users/create/driver', (req, res) => {
-  const { email, token, car } = req.body;
-  const { plate, model, color, brand } = car;
-  jwt.verify(token, SEED, (err, authData) => {
-    if (err) {
-      res.send({ success: false, message: err });
-    } else if (authData.user.email === email) {
+//Create conductor
+router.post('/users/create/driver', async (req, res) => {
+  try {
+    const { email, token, car } = req.body;
+    const { plate, model, color, brand } = car;
+    const auth = await verifyToken(token);
+    if (auth.user.email === email) {
       const query = `UPDATE users SET plate = ? WHERE email = ?;
-      INSERT INTO vehicles VALUES (?,?,?,?,?);`;
-      sequilize
-        .query(query,
-          { raw: true, replacements: [plate, email, plate, model, color, brand, email] })
-        .then(rows => {
-          console.log(rows);
-          if (rows[0][0].affectedRows === 1) {
-            res.send({ success: true, message: 'create successful' });
-          } else {
-            res.send({ success: false, message: 'the email is wrong' });
-          }
-        })
-        .catch(error => {
-          res.send({ success: false, message: error });
-        });
+        INSERT INTO vehicles VALUES (?,?,?,?,?);`;
+      const configObj = {
+        raw: true,
+        replacements: [plate, email, plate, model, color, brand, email]
+      };
+      const response = await sequilize.query(query, configObj);
+      console.log(response);
+      if (response[0][0].affectedRows === 1) {
+        res.send({ success: true, message: 'create successful' });
+      } else {
+        res.send({ success: false, message: 'the email is wrong' });
+      }
     } else {
       res.send({ success: false, message: 'bad request' });
     }
-  });
-});
-
-//ruta de prueba de concepto
-router.post('/verify', async (req, res) => {
-  try {
-    const { token } = req.body;
-    const auth = await verifyToken(token);
-    if (auth) {
-      res.send(auth);
-    }
   } catch (e) {
-    res.send(`${e}`);
-  }
-});
-
-router.post('/encrypt', async (req, res) => {
-  try {
-    const { password } = req.body;
-    const pass = await encryptPassword(password);
-    if (pass) {
-      res.send(pass);
-    }
-  } catch (e) {
-    res.send(`${e}`);
-  }
-});
-
-router.post('/decode', async (req, res) => {
-  try {
-    const { password, savedPassword } = req.body;
-    const match1 = await matchPassword(password, savedPassword);
-    if (match1) {
-      res.send(match1);
-    }
-  } catch (e) {
-    res.send(`${e}`);
+    console.log(e);
+    res.send({ success: false, message: `${e}` });
   }
 });
 
