@@ -1,4 +1,5 @@
 const express = require('express');
+const socketio = require('socket.io');
 
 // initialization
 const app = express();
@@ -18,6 +19,13 @@ app.use(require('./routes/travels'));
 app.use(require('./routes/conductores'));
 
 // Starting the server
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
   console.log(`Server on port ${app.get('port')}`);
+});
+
+//web Socket
+const websocket = socketio(server); //Initiate Socket
+
+websocket.on('test', (data) => {
+  console.log('new connection', data);
 });
